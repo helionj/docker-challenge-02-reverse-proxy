@@ -4,26 +4,23 @@ services:
   
   nginx:
     build: ./nginx
-    #dockerfile: Dockerfile.prod
-    #image: helionporto/nginx:prod
     container_name: nginx
     networks:
       - node-network
     ports:
       - "8080:80"
     depends_on:
-      - nodeserver
+      - node
 
-  nodeserver:
-    build:
-      context: node
-    container_name: nodeserver
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+  node:
+    build: ./node
+    container_name: node
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 120s docker-entrypoint.sh
     command: node index.js
     networks: 
       - node-network
-    volumes:
-      - ./node:/usr/src/app
+    #volumes:
+    #- ./node:/usr/src/app
     tty: true
     depends_on:
       - db
@@ -36,6 +33,7 @@ services:
     tty: true
     volumes:
       - ./mysql:/var/lib/mysql
+      - ./script:/docker-entrypoint-initdb.d
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root

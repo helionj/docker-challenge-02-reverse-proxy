@@ -11,14 +11,13 @@ const config = {
 }
 
 
-
 app.use(express.json())
 
 app.get('/', (req,res) => {
- 
   insert()
   const sqlQuery = 'SELECT * from people'
   execSQLQuery(sqlQuery, res)
+  
 })
 
 app.listen(port, () => {
@@ -43,4 +42,6 @@ const insert = () => {
   connection.query(sql)
   connection.end()
 }
+
+
 
