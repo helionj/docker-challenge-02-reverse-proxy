@@ -33,7 +33,7 @@ const execSQLQuery = (sqlQry, res) => {
       else
         res.send(`<h1>Full Cycle Rocks</h1>${results.map(result => JSON.stringify(result))}`);
       connection.end();
-      console.log('executou!');
+      
   })
 }
 const insert = () => {
